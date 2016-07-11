@@ -13,9 +13,12 @@ export default {
 	resolve: {
 		extensions: ["", ".js"],
 	},
-	devtool: "inline-source-map",
+	devtool: "source-map",
 	plugins: [
 		// new webpack.optimize.UglifyJsPlugin()
+		new webpack.OldWatchingPlugin(),
+		//new webpack.HotModuleReplacementPlugin(),
+		new webpack.optimize.DedupePlugin(),
 	],
 	module: {
 		loaders: [
@@ -26,6 +29,7 @@ export default {
 			},
 			{
 				test: /\.html$/,
+				exclude: /node_modules/,
 				loader: "file?name=[name].[ext]"
 			}
 		]

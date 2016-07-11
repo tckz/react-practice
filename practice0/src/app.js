@@ -3,17 +3,17 @@ import ReactDOM from "react-dom";
 import {createStore} from "redux";
 import {Provider, connect} from "react-redux";
 
-const text = (state = {text: "", length: 0, count: 0}, action) => {
+const updateState = (state = {text: "", length: 0, count: 0}, action) => {
 	switch (action.type) {
 		case "CLICK":
-			return {
+			return Object.assign({}, state, {
 				count: state.count + 1
-			};
+			});
 		case "UPDATE_TEXT":
-			return {
+			return Object.assign({}, state, {
 				text: action.text,
 				length: action.text.length
-			};
+			});
 		default:
 			return state;
 	}
@@ -44,10 +44,7 @@ const mapDispatchToProps = (dispatch) => {
 let WordCountBox = ({text, length, count, onChange, onClick}) => {
 	return (
 		<div className="wordCountBox">
-			<h1>Redux!</h1>
-			<textarea rows="8" cols="80" placeholder="Type type" autoFocus="true" onChange={onChange}>
-				{text}
-			</textarea>
+			<textarea rows="2" cols="80" placeholder="Type type" autoFocus="true" onChange={onChange} value={text} />
 			<p><button onClick={onClick}>push</button></p>
 			<p>Count: {length}</p>
 			<p>Count2: {count}</p>
@@ -55,13 +52,13 @@ let WordCountBox = ({text, length, count, onChange, onClick}) => {
 	)
 };
 
-WordCountBox = connect(mapStateToProps, mapDispatchToProps)(WordCountBox);
+const WordCountBoxConnected = connect(mapStateToProps, mapDispatchToProps)(WordCountBox);
 ReactDOM.render(
-	<Provider store={createStore(text)}>
-		<WordCountBox />
+	<Provider store={createStore(updateState)}>
+		<WordCountBoxConnected />
 	</Provider>,
 	document.getElementById("content")
 );
 const elem = document.getElementById("markdown")
-elem.innerHTML = "Yaaa4";
+elem.innerHTML = "Ya";
 
